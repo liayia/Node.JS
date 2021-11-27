@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require('path');
 const app = express();
 
 // 根路徑
@@ -72,13 +73,34 @@ app.get("/response-data",(req,res)=>{
 
     // 從 瀏覽器 傳 name 參數 (query_string), 組合成 message 
     // 再回傳 JSON 給 瀏覽器 (前端)
-    let name = req.query.name;
-    let message = "HIHI , 我是" + name;
-    res.json({
-        "name" : "Arthur",
-        "age"  : 18 ,
-        "message" : message
-    });
+    //let name = req.query.name;
+    //let message = "HIHI , 我是" + name;
+    //res.json({
+        //"name" : "Arthur",
+        //"age"  : 18 ,
+        //"message" : message
+    //});
+    //let fileName = path.join(__dirname,"Cat03.jpg");
+    //console.log(fileName);
+
+    //res.sendFile(fileName);
+
+    res.redirect("https://youtube.com");
+
+});
+
+app.get("/images",(req,res)=>{
+    let imgTpye = req.query.type;
+    let imgName = "demo" + imgTpye + ".jpg";
+
+    let fileName = path.join(__dirname,"imgName");
+    console.log(imgName);
+    res.sendFile(fileName);
+
+    //let fileName = path.join(__dirname,"demo1.jpg");
+    //console.log(fileName);
+    //res.sendFile(fileName);
+
 });
 
 // 讓 server.js 佔有 8088 的 port
