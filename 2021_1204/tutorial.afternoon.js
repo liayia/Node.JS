@@ -138,3 +138,116 @@ let add1 = function(a,b){
   };
   
   test4();
+  
+  
+  console.log("-".repeat(50));
+  /////////////////////////////////////////////////////////////
+  //// 流程控制#1 if-else 
+  // 1. 宣告 a 變數
+  // a>0 --> 正數！！！
+  // a<0 --> 負數！！！
+  let a = 0;
+  if( a>0 ){
+    console.log("正數！！！");
+  } else {
+    console.log("負數！！！");
+  };
+  
+  // 2. 宣告 b 變數
+  // b > 0   --> 正數！！！
+  // b === 0 --> b為0！！！
+  // b < 0   --> 負數！！！
+  let b = -123;
+  if(b > 0 ){
+    console.log("b 為 正數！！！");
+  } else if( b === 0 ){
+    console.log("b 為 0！！！");
+  } else {
+    console.log("b 為 負數！！！");
+  };
+  
+  ////// 運算子 (資料間運算的符號)
+  // 算數運算子: + , - , * , / , % (取餘數)
+  console.log( 12 / 5);
+  console.log( 12 % 5);
+  console.log( 12 % 2);
+  console.log( 113 % 2);
+  
+  // 比較運算子: > , < , == , === , != , !==
+  console.log( 3> 12 );  // 請問 3> 12 嗎？  V -> true ; X -> false
+  console.log( 27 < 30 );
+  console.log( 12%2 === 0);   // 左右兩邊值 是否 相等
+  console.log( 113%2 !== 0);  // 左右兩邊值 是否 不相等
+  
+  console.log("-".repeat(50));
+  
+  // == / === 差別
+  // ==  : 弱型別 比較
+  // === : 強型別 比較
+  console.log("1 == 1 :"   , 1 == 1);
+  console.log('1 == "1" :' , 1 == "1");
+  console.log("1 == true :", 1 == true);
+  
+  console.log("1 === 1 :"   , 1 === 1);
+  console.log('1 === "1" :' , 1 === "1");
+  console.log("1 === true :", 1 === true);
+  
+  console.log("-".repeat(50));
+  
+  
+  // 關係運算子: && , ||
+  //  && -> 交集 , 且 (and)
+  //  || -> 聯集 , 或 (or)
+  console.log("12%2 === 0 && 3>7 :", 12%2 === 0 && 3>7 );
+  console.log("12%2 === 0 && 3>-2 :", 12%2 === 0 && 3>-2 );
+  
+  console.log("-".repeat(50));
+  
+  /////// 小試身手 #3-1
+  // 用 number 來決定 type 組別
+  let number = -100;
+  let type;
+  
+  // if - else ...
+  if(number >= 100) {
+    type = "丁組";
+  } else if (number >= 50 && number < 100) {
+    type = "丙組";
+  } else if (number >=0 && number <50) {
+    type = "乙組";
+  } else {
+    type = "甲組";
+  };
+  
+  console.log("您的組別是 :" , type);
+  
+  
+  /////// 小試身手 #3-2
+  // 透過 age / gender , 顯示對應的金額
+  let age = 20;
+  let gender = "M" ; // "M" , "F"
+  let message3; 
+  
+  // 巢狀 if-else
+  // if( gender === "F"){
+  //   // 女生
+  //   message3 = "您的消費金額為 $500";
+  // } else {
+  //   // 男生
+  //   if( age >= 30){
+  //     // 男生 && age >= 30 
+  //     message3 = "您的消費金額為 $1000";
+  //   }else{
+  //     message3 = "您的消費金額為 $700";
+  //   }
+  // };
+  
+  if( gender === "F"){
+    message3 = "您的消費金額為 $500";
+  } else if ( gender === "M" && age >=30){
+    message3 = "您的消費金額為 $1000";
+  } else if ( gender === "M" && age < 30){
+    message3 = "您的消費金額為 $700";
+  };
+  
+  console.log(message3);
