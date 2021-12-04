@@ -160,20 +160,91 @@ console.log(obj4);
 obj4["movies"] = "Avengers !!!";
 console.log(obj4);
 
-
-// Object.keys() / Object.values()
+// Object.keys() / Object.values() 
+// Object 為 保留字 
 console.log("Object.keys(obj4) :",Object.keys(obj4));
-console.log("Object.values(obj4) :",Object.values(obj4));
+console.log( "Object.values(obj4) :" , Object.values(obj4) );
 
-///////////////////////////////////////////////////////////////////////////
-//小試身手
+console.log( "-".repeat(50) );
 
-let obj5 = {
-    "name" : "Jeff" , 
-    "height" : 170 ,
-    "weight" : 65 ,
-    "age" : 26 ,
-    "class" : "A-" ,
-    "interest" : ["喝酒","爬山","寫程式","彈吉他"],
- };
- console.log(obj5);
+////// 小試身手 #1
+// a.
+let data = {
+  name : "Jeff",
+  height : 170,
+  weight : 65,
+  age : 26 ,
+  class : "A-",
+  interest : ["喝酒","爬山","寫程式"]
+};
+console.log(data);
+
+// b. 
+let message = "嗨嗨 , 我是" + data["name"] + ", 階級為" + data["class"];
+console.log(message);
+
+// c. 
+data["height"] = 180;
+let message2 = "修改 " + data["name"] + " 的身高為 " + data["height"];
+console.log(message2);
+
+// d. 
+// data["interest"] // 此時該變數為  ["喝酒","爬山","寫程式"] array 資料
+data["interest"].push("彈吉他");
+console.log(data);
+
+console.log("-".repeat(50));
+
+/////////////////////////////////////////////////////////////
+// Array with Object
+let data3 = [
+  { memNo : 1001 , name : "Jeff"  , money : 1000 },
+  { memNo : 1002 , name : "Leo"   , money : 2000 },
+  { memNo : 1003 , name : "Keven" , money : 950  },
+  { memNo : 1004 , name : "Holy"  , money : 470  },
+  { memNo : 1005 , name : "Jenny" , money : 890  },
+];
+
+// a) 取出 名字資料的 Array --> ["Jeff","Leo","Keven","Holy","Jenny"]
+let result2 = data3.map( element => element["name"] );
+console.log("result2 :",result2);
+
+// b) 取出 memNo 構成的 Array --> [1001,1002,1003,1004,1005]
+let result3 = data3.map( ele => ele["memNo"] );
+console.log("result3 :",result3);
+
+let result4 = data3.map( element => "ABCD");
+console.log("result4 :",result4);
+
+// c) money >= 900 的 memNo , 所構成的 Array 
+let result5 = data3.filter( element => element["money"] >= 900) // 過濾 money >= 900 的 object
+                   .map(element => element["memNo"]);           // 將 object 轉成 memNo 的資料
+                   
+console.log("result5 :",result5); 
+
+console.log( "-".repeat(50) );
+
+////// 小試身手 #2
+let studentsScores = [
+    { name : "Jeff"  , age : 18 , scores : [95,88,100] },
+    { name : "Leo"   , age : 22 , scores : [90,97,98]  },
+    { name : "Holy"  , age : 25 , scores : [75,68,90]  },
+    { name : "Keven" , age : 33 , scores : [77,65,32]  },
+    { name : "Jenny" , age : 20 , scores : [63,82,91]  },
+    { name : "Elle"  , age : 31 , scores : [100,73,83] },
+];
+
+// 1) 取得 age >= 30 的人名 array  --> [ "Keven" , "Elle" ]
+let result6 = studentsScores.filter(element => element["age"] >=30 )
+                            .map(element => element["name"]);
+console.log("result6 :" , result6);
+
+// 2) 取得 scores 總和 >= 250 的 資料 , 並將人名 & 年紀合併成一字串 , 成為 array 元素後回傳
+//    --> [ 'Jeff-18', 'Leo-22', 'Elle-31' ]
+
+let result7 = studentsScores.filter(ele=> (ele["scores"][0] + ele["scores"][1] + ele["scores"][2]) >=250 )
+                            .map(ele=> (ele["name"] + "-" + ele["age"]));
+
+console.log("result7 :", result7);
+
+
