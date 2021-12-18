@@ -1,5 +1,5 @@
 $(function(){
-  
+
     $("#drama-select-btn").click(function(){
 
         // [Coding]
@@ -7,13 +7,19 @@ $(function(){
         // alert("QQQQ");
         ////////
 
-        // 使用 ajax 發 request 
+        //// 使用 ajax 發 request 
+        //// 並用 query_string 攜帶參數
+        let type = $("#categories-select").val();
+        console.log(type);
+        console.log("/dramas/getDramaListData?type=" + type);
+
         $.ajax({
-            url  : "/dramas/getDramaListData",   // API 位置
+            url  : "/dramas/getDramaListData?type=" + type,   // API 位置
             type : "GET"    // requests 的方法 (種類)
          })
          .then(res=>{ 
             console.log(res);
+            createTable(res["result"]);  // 丟入 Array 資料
          })
          .catch(err =>{
             console.log(err);
