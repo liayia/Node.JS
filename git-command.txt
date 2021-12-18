@@ -15,3 +15,8 @@
 ////////////////////////////////////
 // 查看檔案追蹤情況
 // git status 
+
+Linux
+git add . && git commit -m "Uploading" && git push
+Powershell
+git add . ; git commit -m "Uploading"; git push
