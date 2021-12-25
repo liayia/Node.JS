@@ -1,30 +1,32 @@
 $(function(){
-
+  
     $("#drama-select-btn").click(function(){
 
-        // [Coding]
-        // createTable();
-        // alert("QQQQ");
-        ////////
+        var type = $("#categories-select").val();
 
-        //// 使用 ajax 發 request 
-        //// 並用 query_string 攜帶參數
-        let type = $("#categories-select").val();
-        console.log(type);
-        console.log("/dramas/getDramaListData?type=" + type);
-
+        // Ajax
+        // query_string 
         $.ajax({
-            url  : "/dramas/list?type=" + type,   // API 位置
-            // url  : "/dramas/getDramaListData?type=" + type,   // API 位置
-            type : "GET"    // requests 的方法 (種類)
-         })
-         .then(res=>{ 
-            console.log(res);
-            createTable(res["result"]);  // 丟入 Array 資料
-         })
-         .catch(err =>{
-            console.log(err);
-         });
+            url  : "/dramas/list?type="+type,
+            type : "GET",
+            timeout: 10000 // 10 sec
+        })
+        .then(function(response){
+            console.log(response);
+
+            createTable(response["result"]);
+
+        })
+        .catch(function(error){
+            console.log(error);
+
+            if(error.status === 401){
+                alert("請先登入！");
+                return;
+            };
+        });
+
+
     });
 
     $("#drama-insert-btn").click(function(){
@@ -43,7 +45,7 @@ let createTable = (data)=>{
 
     let tableBody = data.map((ele,i)=>`
         <tr>
-            <th scope="row">${i+1}</th>
+            <th scope="row">${ele.dramaId}</th>
             <td>${ele.category}</td>
             <td>${ele.name}</td>
             <td>${ele.score} / 10</td>
@@ -75,31 +77,22 @@ let insertNewRecord = ()=> {
 
     $.ajax({
         url  : "/dramas/data",
-        // url  : "/dramas/createNewDramaData",
         type : "POST",
-
-        //// 以 application/x-www-form-urlencoded 資料傳送
         data : {
             category,
             name,
             score
         },
-        ////
-        
-        //// 以 application/json 資料傳送
+
         // data : JSON.stringify({
         //     category,
         //     name,
         //     score
         // }),
         // contentType: "application/json",
-        ////
     })
     .then(r=>{
-        if(r.message === "ok."){
-            alert("更新完成！");
-            // location.reload();  頁面 重新整理
-        };
+        if(r.message === "ok.")  alert("更新完成！");
         
     })
     .catch(err=>{
@@ -107,6 +100,14 @@ let insertNewRecord = ()=> {
 
         if(err.status === 404){
             alert("找不到該 API !");
+            return;
+        };
+
+        if(err.status === 401){
+            alert("請先登入 , 2秒後自動將您跳轉！");
+            setTimeout(function(){
+                location.href="/login";
+            },2000);
             return;
         };
         

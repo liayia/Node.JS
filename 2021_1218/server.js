@@ -11,8 +11,8 @@ const dramasRouter = require("./router/dramas");
 
 
 // [Views][1] 設定模板引擎 (解析 html 檔 , 讓 express 看懂 html 程式)
-// hbs -> handlebars 為一種模版引擎
-// 另外一種熱門的模版引擎 --> pug 
+// hbs -> handlebars 為一種模板引擎
+// 另外一種熱門的模板引擎 --> pug 
 app.engine("html" , hbs.__express);
 
 // [Views][2] 設定模板 (template) 位置
@@ -28,21 +28,21 @@ app.use(bodyParser.json());
 
 // [Body-Parser][2] 解析 application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({
-  extend: false,
-  limit : "1mb",
-  parameterLimit : "10000"
+  extended : false,   // 是否用 額外套件 解析字串
+  limit : "1mb",      // 限制 參數資料大小
+  parameterLimit : "10000" // 限制參數個數 
 }));
-
 
 
 app.get("/" , (req,res)=>{
   // res.send("嗨嗨,  我是 Node.js server.");
   
-  // [4] 使用 .render (渲染) 回傳 html 頁面
+  // [Views][4] 使用 .render (渲染) 回傳 html 頁面
   res.render("index.html");
 });
 
 app.use("/dramas",dramasRouter);
+
 
 // 關於我們 頁面
 app.get("/about/us",(req,res)=>{

@@ -248,3 +248,4 @@ let result7 = studentsScores.filter(ele=> (ele["scores"][0] + ele["scores"][1] +
 console.log("result7 :", result7);
 
 
+
