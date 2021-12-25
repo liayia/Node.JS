@@ -7,22 +7,21 @@ const bodyParser = require("body-parser");  // 記得 npm install body-parser
 const app = express();
 const portNum = 8088;
 
-const dramasRouter = require("./router/dramas");
+// const dramasRouter = require("./router/dramas.views");
+const dramasRouter = require("./router/dramas.controllers"); // [改動]
+const authRouter = require("./router/auth");
 
-
-// [Views][1] 設定模板引擎 (解析 html 檔 , 讓 express 看懂 html 程式)
-// hbs -> handlebars 為一種模板引擎
-// 另外一種熱門的模板引擎 --> pug 
+//////////////////////////////////////////
+// 設定模板引擎
 app.engine("html" , hbs.__express);
 
-// [Views][2] 設定模板 (template) 位置
 app.set("views" , path.join(__dirname , "application" , "views" ));
 
-// [Views][3] 設定靜態檔的位置 (讀取 *.css / *.js / *.jpg / *.png / *.mp4 / ...)
-// --> 處理 靜態檔 相關 requests
 app.use( express.static( path.join( __dirname , "application") ));
+//////////////////////////////////////////
 
-////// 使 express 可以解析 Form data 
+//////////////////////////////////////////
+// 使用 body-parser 處理  Form data  (req.body)
 // [Body-Parser][1] 解析 application/json
 app.use(bodyParser.json());
 
@@ -32,7 +31,13 @@ app.use(bodyParser.urlencoded({
   limit : "1mb",      // 限制 參數資料大小
   parameterLimit : "10000" // 限制參數個數 
 }));
+//////////////////////////////////////////
 
+
+// 1. 加入 login 頁面
+app.get("/login" , (req,res)=>{
+  res.render("login.html");
+});
 
 app.get("/" , (req,res)=>{
   // res.send("嗨嗨,  我是 Node.js server.");
@@ -42,24 +47,66 @@ app.get("/" , (req,res)=>{
 });
 
 app.use("/dramas",dramasRouter);
-
+app.use("/auth" , authRouter);
 
 // 關於我們 頁面
 app.get("/about/us",(req,res)=>{
   res.render("aboutus.html");
 });
 
-//////////////////////// 
-// 前端教學用
-// HTML / Css / 前端 Js 教學
-app.get("/testqq",(req,res)=>{
-  res.render("template.html");
-});
 
-app.get("/data",(req,res)=>{
-  res.json({ name : "jeff" , age : 18 , message : "今天好冷喔～～～" });
-});
-////////////////////////
+////////////////////////////////////////
+// Middleware (中介函式)
+app.get("/hello" , 
+  (req,res,next)=>{
+    
+    console.log("我是 Middleware 1");
+
+    // [1] 顯示前端 name 參數
+    // console.log(`您是 :${ req.query.name }`);
+
+    // [2] Middleware 間傳參數
+    // req (request 物件) 上 設定資料
+    req.test = { name : "jeff" , age :18 };
+
+    // [3] 往下一個 Middleware (中介函式) 執行
+    // next();
+
+    // [4] 檢查 name 參數 是否存在
+    // V -> ok , 往下一個 Middleware 執行
+    // X -> 回傳 { message : "name 人呢？" }
+    // 使用 error first 寫法
+    // if( req.query.name === undefined){ // 還可以更好
+    if(!req.query.name){  // 更佳 !!!
+      res.json({ message : "name 人呢？" });
+    }else{
+      next();
+    };
+
+  },
+  (req,res,next)=>{
+    // 100% 確保 name 參數必存在
+    console.log("我是 Middleware 2");
+
+    // [1] 顯示前端 age 參數
+    // [1] 顯示前端 name 參數
+    console.log(`您是 : ${ req.query.name }`);
+    console.log(`您今年 : ${req.query.age} 歲`);
+    next();
+  },
+  (req,res,next)=>{
+    console.log("我是 Middleware 3");
+    console.log("req.test :" , req.test);
+    next();
+  },
+  (req,res)=>{
+    console.log("我是 Middleware 4");
+    res.json({ result : req.test });
+    // res.send("Hello , 過敏好可怕～～～");
+  }
+);
+////////////////////////////////////////
+
 
 
 app.listen(portNum , ()=>{
