@@ -3,6 +3,7 @@ const path = require("path");
 const hbs = require("hbs");   // 記得 npm install hbs
 
 const bodyParser = require("body-parser");  // 記得 npm install body-parser
+const session = require("express-session");
 
 const app = express();
 const portNum = 8088;
@@ -38,6 +39,16 @@ app.use(bodyParser.urlencoded({
 app.get("/login" , (req,res)=>{
   res.render("login.html");
 });
+
+// Use Session
+app.use(session({
+  secret : "c90dis90#" ,
+  resave : true,
+  saveUninitialized : false,
+  name:"_ntust_tutorial_id",
+  ttl : 24*60*60*1
+}));
+
 
 app.get("/" , (req,res)=>{
   // res.send("嗨嗨,  我是 Node.js server.");
