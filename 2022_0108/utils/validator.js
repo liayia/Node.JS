@@ -11,15 +11,15 @@ let isTokenExist = (req,res,next) => {
 };
 
 // 2. 檢查 token 值是否正確 (M2)
-function isTokenValid(req, res, next) {
-  if (req.headers["x-jeff-token"] !== "APTX4869") {
+let isTokenValid = (req,res,next) => {
+  if(req.headers["x-jeff-token"] !== "APTX4869"){
     console.log("[M2] token 錯誤！！！");
     // status_code=403 --> 無權限 (Forbidden.)
-    res.status(403).json({ message: "您沒有權限！" });
-  } else {
+    res.status(403).json({ message : "您沒有權限！"});
+  }else{
     next();
   };
-}
+};
 
 ////////////////////////////////////
 
@@ -57,11 +57,21 @@ let setSessionInfo = (req,res,next)=>{
 };
 
 
+// 檢查是否有登入驗證
+let isUserLogined = (req,res,next)=>{  // 是否登入驗證
+    if(!req.session.userInfo || req.session.userInfo.isLogined === false){
+      res.redirect("/login");
+      return;
+    };
+    next();
+};
+
 // 一定要 module.exports 出去 
 module.exports = {
     "isTokenExist" : isTokenExist, // value 為 middleware 本人 
     "isTokenValid" : isTokenValid,
     "isAccountAndPasswdExist" : isAccountAndPasswdExist,
     "isUserValid" : isUserValid ,
-    "setSessionInfo" : setSessionInfo
+    "setSessionInfo" : setSessionInfo,
+    "isUserLogined" : isUserLogined
 };
