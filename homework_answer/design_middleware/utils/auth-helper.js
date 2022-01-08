@@ -15,6 +15,9 @@ exports.createToken = (req,res,next)=>{
         iat:( Math.floor(Date.now() / 1000) - 10)
     };
 
+    // 此為 jwt 字串 
+    // eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJkYXRhIjp7ImFjY291bnQiOiJqZWZmIiwicGFzc3dkIjoidGVzdHFxIiwibGV2ZWwiOjJ9LCJleHAiOjE2NDExOTc2OTgsImlhdCI6MTY0MTE5NDA4OH0.5tzE6VGNdQrAlRoz6yQvJHihPBdo4IMiOWtrciq-MNQ
+
     // 將 jwt 加密
     jwt.sign(payload , jwtSecret , jwtOptions , (err,token)=>{
         if(err){
@@ -45,4 +48,13 @@ exports.decodeToken = (req,res,next) => {
 
         next();
     });
+};
+
+// 檢查 token 是否有攜帶
+exports.isTokenExist = (req,res,next)=>{
+    if(!req.query.token){
+        res.status(401).json({message : "缺少 token!"});
+        return;
+    };
+    next();
 };

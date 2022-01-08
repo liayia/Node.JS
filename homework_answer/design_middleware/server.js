@@ -1,10 +1,21 @@
 const express = require('express');
+const bodyParser = require("body-parser");
 const app = express();
 
 const portNum = 8088;
 
 const sampleRouter = require("./router/sample");
+const authRouter = require("./router/auth");
+const membersRouter = require("./router/members");
 
+
+app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({
+  extended : false,   // 是否用 額外套件 解析字串
+  limit : "1mb",      // 限制 參數資料大小
+  parameterLimit : "10000" // 限制參數個數 
+}));
 
 //////////////////////////////////// 
 // This is for swagger API documents.
@@ -33,6 +44,9 @@ app.get("/",(req,res)=>{
 
 
 app.use("/sample",sampleRouter);
+app.use("/auth",authRouter);
+app.use("/members",membersRouter);
+
 
 
 app.use((req,res)=>{
