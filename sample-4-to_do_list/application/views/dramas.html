@@ -74,7 +74,7 @@
                         
                         <ul class="collapse list-unstyled" id="toDoList">
                             <li>
-                                <a href="/to-do-list/page"> 待辦事項 清單 </a>
+                                <a href="/to-do-list/page/list"> 待辦事項 清單 </a>
                             </li>
                         </ul>
                     </li>
@@ -215,7 +215,13 @@
     <!-- jQuery Custom Scroller CDN -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/malihu-custom-scrollbar-plugin/3.1.5/jquery.mCustomScrollbar.concat.min.js"></script>
 
-
+    <script>
+        $("#sidebarCollapse").on("click", function () {
+            $("#sidebar, #content").toggleClass("active");
+            $(".collapse.in").toggleClass("in");
+            $("a[aria-expanded=true]").attr("aria-expanded", "false");
+        });
+    </script>
     <script type="text/javascript" src="/js/main.js"></script>
     <script type="text/javascript" src="/js/dramas.js"></script>
 </body>

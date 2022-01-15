@@ -7,10 +7,7 @@ let dramaSchema = new mongoose.Schema({
     "category" : String,
     "name"     : String,
     "score"    : Number,
-  }, { 
-    collection: "dramas_table",
-    versionKey : false
-  }
+  }, { collection: "dramas_table"}
 );
   
 

@@ -16,9 +16,13 @@ $(function(){
 
             createTable(response["result"]);
         })
-        .catch(function(error){
-            alert(error.responseText);
-            console.log(error);
+        .catch(function(err){
+            if(err.status === 404){
+                alert("找不到該 API !");
+                return;
+            };
+            alert(err.responseText);
+            console.log(err);
         });
 
 
